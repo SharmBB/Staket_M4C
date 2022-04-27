@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1090593060777",
+    "project_id": "staket-f7278",
+    "storage_bucket": "staket-f7278.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090593060777:android:eb7ff32701c9aff18e36b8",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1090593060777-llefk08s56autvcmrn56ciejih2hu11e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCML42mnStc1nPFRqI2ADEq7IZX049CjyQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1090593060777-llefk08s56autvcmrn56ciejih2hu11e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
