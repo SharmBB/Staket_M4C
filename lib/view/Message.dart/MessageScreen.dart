@@ -185,10 +185,13 @@ class _MessageScreenState extends State<MessageScreen> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => chatpage(
-                                                email: newmessage[index]
-                                                    ["email"].toString(),
-                                              )),
+                                          builder: (context) => ChatScreen()
+                                          
+                                          // chatpage(
+                                          //       email: newmessage[index]
+                                          //           ["email"].toString(),
+                                          //     )
+                                              ),
                                     );
                                   },
                                   child: cardView(
