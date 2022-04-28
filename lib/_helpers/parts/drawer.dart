@@ -4,6 +4,7 @@ import 'package:flutter_application_1/_helpers/constants.dart';
 import 'package:flutter_application_1/view/Chat/chatPage.dart';
 import 'package:flutter_application_1/view/Message.dart/MessageScreen.dart';
 import 'package:flutter_application_1/view/Message.dart/chart.dart';
+import 'package:flutter_application_1/view/Message.dart/chats.dart';
 import 'package:flutter_application_1/view/Receipt/Receipts.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -109,8 +110,8 @@ class DrawerMenu extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => chatpage(
-                            email: 'yest@gmail.com',
+                      builder: (context) => Home1(
+                        //    email: 'yest@gmail.com',
                           )),
                 );
               },

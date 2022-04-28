@@ -41,10 +41,12 @@ dependencies:
   pin_code_fields: ^7.3.0
   cloud_firestore: ^3.1.11
   firebase_core: ^1.14.0
+  flutter_chat_bubble: ^2.0.0
   
 
   # create QR Code
   barcode_widget: ^1.5.0
+  cupertino_list_tile: ^0.2.1
 
 dev_dependencies:
   flutter_test:
