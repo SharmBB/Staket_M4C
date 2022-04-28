@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cupertino_list_tile/cupertino_list_tile.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,16 +8,16 @@ import 'package:flutter_application_1/_helpers/constants.dart';
 import 'package:flutter_application_1/_helpers/parts/drawer.dart';
 import 'package:flutter_application_1/view/Message.dart/chatScreen.dart';
 
-class Home1 extends StatefulWidget {
-  const Home1({Key? key}) : super(key: key);
+class MessageScrren extends StatefulWidget {
+  const MessageScrren({Key? key}) : super(key: key);
 
   @override
-  State<Home1> createState() => _Home1State();
+  State<MessageScrren> createState() => _Home1State();
 }
 
 final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-class _Home1State extends State<Home1> {
+class _Home1State extends State<MessageScrren> {
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -104,30 +106,6 @@ class _Home1State extends State<Home1> {
                           child: Padding(
                             padding: EdgeInsets.only(bottom: 20, top: 20),
                             child: Chats(),
-                            // child: ListView.builder(
-                            //     itemCount: newmessage.length,
-                            //     itemBuilder: (BuildContext context, int index) {
-                            //       return GestureDetector(
-                            //         onTap: () {
-                            //           print(newmessage[index]["email"]);
-                            //           Navigator.push(
-                            //             context,
-                            //             MaterialPageRoute(
-                            //                 builder: (context) => ChatScreen()
-
-                            //                 // chatpage(
-                            //                 //       email: newmessage[index]
-                            //                 //           ["email"].toString(),
-                            //                 //     )
-                            //                 ),
-                            //           );
-                            //         },
-                            //         child: cardView(
-                            //             newmessage[index]["Picture"],
-                            //             newmessage[index]["Title"],
-                            //             newmessage[index]["Subtitle"]),
-                            //       );
-                            //     }),
                           ),
                         ),
                         Text(
@@ -137,23 +115,6 @@ class _Home1State extends State<Home1> {
                               fontWeight: FontWeight.w600,
                               color: Colors.grey),
                         ),
-                        // SizedBox(
-                        //   height: screenHeight * 0.4,
-                        //   child: Padding(
-                        //     padding: EdgeInsets.only(bottom: 20, top: 20),
-                        //     child: ListView.builder(
-                        //         itemCount: oldmessage.length,
-                        //         itemBuilder: (BuildContext context, int index) {
-                        //           return GestureDetector(
-                        //             onTap: () {},
-                        //             child: cardView(
-                        //                 oldmessage[index]["Picture"],
-                        //                 oldmessage[index]["Title"],
-                        //                 oldmessage[index]["Subtitle"]),
-                        //           );
-                        //         }),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -162,8 +123,6 @@ class _Home1State extends State<Home1> {
             ),
           ),
         ));
-
-    //   Chats());
   }
 }
 
@@ -205,17 +164,27 @@ class Chats extends StatelessWidget {
                 //   largeTitle: Text("Poples Chat"),
                 // ),
                 SliverList(
-                    delegate: SliverChildListDelegate(
-                        snapshot.data!.docs.map((DocumentSnapshot document) {
-                  Map<String, dynamic>? data =
-                      document.data() as Map<String, dynamic>?;
-                  return CupertinoListTile(
-                    onTap: () => callChatDetailScreen(
-                        context, data!['name'], data['uid']),
-                    title: Text(data!['name']),
-                    subtitle: Text(data['status']),
-                  );
-                }).toList()))
+                  delegate: SliverChildListDelegate(
+                    snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic>? data =
+                          document.data() as Map<String, dynamic>?;
+                      return Card(
+                        child: ListTile(
+                          onTap: () => callChatDetailScreen(
+                              context, data!['name'], data['uid']),
+                          leading: const CircleAvatar(
+                              backgroundImage:
+                                  AssetImage('assets/lonewolf.png'),
+                              minRadius: 30,
+                              backgroundColor: Colors.transparent,
+                              maxRadius: 30),
+                          title: Text(data!['name']),
+                          subtitle: Text(data['status']),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                )
               ],
             );
           }
