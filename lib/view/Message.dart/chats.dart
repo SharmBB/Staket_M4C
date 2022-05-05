@@ -142,7 +142,9 @@ class Chats extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection("users")
-            .where('uid', isNotEqualTo: "002")
+           .where('uid', isNotEqualTo: "002" )
+          //   .orderBy("createdOn", descending: true)
+           //  .where("createdOn", isEqualTo: "May 4, 2022 at 12:00:00 AM UTC+5:30" )
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
