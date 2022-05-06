@@ -24,6 +24,25 @@ class _LandingPageState extends State<MainScreen> {
     super.initState();
   }
 
+    List datas = [
+    {
+      "Name": "BLK MKT -MacFlurry",
+      "Status": "2 min ago",
+      "Image": "Assets/wolf.jpg",
+      "Image2": "Assets/lonewolf.png",
+      "Potency": "Very Stong",
+      "Thc": "20.00-27.00",
+      "Cbd": "20.00-27.00 ",
+      "PlantType": "Hybrid",
+      "Terpenes": "Caryophyliene",
+      "Craft": "Yes",
+      "GrowingRegion": "Okanagan",
+      "GrowMethod": "Indoor",
+      "DryingMethod": "HangDry"
+    }
+  ];
+
+
   final List<Map> field = [
     {
       'Profile': 'assets/lonewolf.png',
@@ -220,6 +239,15 @@ class _LandingPageState extends State<MainScreen> {
                         return Container(
                           width: 160.0,
                           child: Card(
+                              child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomeScreen(),
+                                ),
+                              );
+                            },
                             child: Wrap(
                               children: [
                                 Image.asset('assets/lonewolf.png'),
@@ -233,7 +261,7 @@ class _LandingPageState extends State<MainScreen> {
                                 ),
                               ],
                             ),
-                          ),
+                          )),
                         );
                       }),
                 ),

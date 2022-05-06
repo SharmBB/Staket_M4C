@@ -108,13 +108,13 @@ class _Home1State extends State<MessageScrren> {
                             child: Chats(),
                           ),
                         ),
-                        Text(
-                          "Old Messages",
-                          style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.grey),
-                        ),
+                        // Text(
+                        //   "Old Messages",
+                        //   style: TextStyle(
+                        //       fontSize: 13,
+                        //       fontWeight: FontWeight.w600,
+                        //       color: Colors.grey),
+                        // ),
                       ],
                     ),
                   ),
