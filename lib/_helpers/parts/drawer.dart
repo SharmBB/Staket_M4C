@@ -1,11 +1,16 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/_helpers/constants.dart';
+import 'package:flutter_application_1/_helpers/sharedPreference.dart';
+import 'package:flutter_application_1/view/LandingPage/landingPage.dart';
 import 'package:flutter_application_1/view/Message.dart/chats.dart';
 import 'package:flutter_application_1/view/Receipt/Receipts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerMenu extends StatelessWidget {
   const DrawerMenu({Key? key}) : super(key: key);
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -113,8 +118,8 @@ class DrawerMenu extends StatelessWidget {
                   color: kPrimaryGreyColor,
                 ),
               ),
-              onTap: () async {
-                // _handleLogout(context);
+              onTap: ()  {
+                Navigator.pop(context);
               },
             ),
             SizedBox(
@@ -130,7 +135,8 @@ class DrawerMenu extends StatelessWidget {
                 ),
               ),
               onTap: () async {
-                // _handleLogout(context);
+                Navigator.pop(context);
+               _handleLogout(context);
               },
             ),
           ],
@@ -139,20 +145,17 @@ class DrawerMenu extends StatelessWidget {
     );
   }
 
-
-
-
-//   void _handleLogout(BuildContext context) async {
-//     try {
-//       SharedPreferences localStorage = await SharedPreferences.getInstance();
-//       localStorage.remove('token');
-//       localStorage.remove('userId');
-//       print("logged out.");
-//       Navigator.pushReplacement(
-//           context, MaterialPageRoute(builder: (context) => SignIn()));
-//     } catch (e) {
-//       print(e);
-//     }
-//   }
-// }
+  void _handleLogout(BuildContext context) async {
+    try {
+       MySharedPreferences.instance.removeAll();
+      
+      print("logged out.");
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => LandingScreen()));
+    } catch (e) {
+      print(e);
+    }
+  }
+  
 }
+

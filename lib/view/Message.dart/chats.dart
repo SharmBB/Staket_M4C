@@ -126,6 +126,8 @@ class _Home1State extends State<MessageScrren> {
   }
 }
 
+
+
 class Chats extends StatelessWidget {
   const Chats({Key? key}) : super(key: key);
 
@@ -142,6 +144,7 @@ class Chats extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection("users")
+            
            .where('uid', isNotEqualTo: "002" )
           //   .orderBy("createdOn", descending: true)
            //  .where("createdOn", isEqualTo: "May 4, 2022 at 12:00:00 AM UTC+5:30" )

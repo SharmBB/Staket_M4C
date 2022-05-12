@@ -2,15 +2,19 @@
 
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_application_1/_helpers/buttons/loginButton.dart';
 import 'package:flutter_application_1/_helpers/constants.dart';
+import 'package:flutter_application_1/_helpers/sharedPreference.dart';
 import 'package:flutter_application_1/api/api.dart';
 import 'package:flutter_application_1/view/ForgotPassword/ForgotPassword.dart';
 import 'package:flutter_application_1/view/Homepage/Home.dart';
 import 'package:flutter_application_1/view/Main/MainPage.dart';
+import 'package:flutter_application_1/view/SigninPage/FirebaseService.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -29,12 +33,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
-
   final TextEditingController _passwordControllerSignup =
       TextEditingController();
   final TextEditingController _emailControllerSignup = TextEditingController();
   final TextEditingController _confirmpasswordController =
       TextEditingController();
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   String? password;
   String? bodyError;
@@ -43,6 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late String hid;
   late String chapterid;
   late String image;
+  bool isLoading = false;
 
   bool _isLoading = false;
   bool showPassword = true;
@@ -50,9 +57,51 @@ class _LoginScreenState extends State<LoginScreen> {
   bool showPasswordSignup2 = true;
   bool showconfirmPassword = true;
 
+  Future<String?> signInwithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleSignInAccount =
+          await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount!.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+      await _auth.signInWithCredential(credential);
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+      throw e;
+    }
+  }
+
+  void showMessage(String message) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text(message),
+            actions: [
+              TextButton(
+                child: Text("Ok"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  Future<void> signOutFromGoogle() async {
+    await _googleSignIn.signOut();
+    await _auth.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
+    User? result = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
         key: _scaffoldKey,
@@ -186,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   !_isLoading
                                       ? LoginPageButton(
                                           text: "Login",
-                                          function: () async{
+                                          function: () async {
                                             if (_formKey.currentState!
                                                 .validate()) {
                                               _formKey.currentState?.save();
@@ -197,6 +246,68 @@ class _LoginScreenState extends State<LoginScreen> {
                                       : CupertinoActivityIndicator(
                                           radius: 15,
                                         ),
+                                  SizedBox(height: 20),
+                                  // InkWell(
+                                  //   onTap: () async {
+                                  //     signInwithGoogle();
+                                  //     //     setState(() {
+                                  //     //       isLoading = true;
+                                  //     //     });
+                                  //     //     FirebaseService service =
+                                  //     //         new FirebaseService();
+                                  //     //     try {
+                                  //     //       await service.signInwithGoogle();
+                                  //     //  //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen()));
+                                  //     //     } catch (e) {
+                                  //     //       if (e is FirebaseAuthException) {
+                                  //     //         showMessage(e.message!);
+                                  //     //       }
+                                  //     //     }
+                                  //     //     setState(() {
+                                  //     //       isLoading = false;
+                                  //     //     });
+                                  //   },
+                                  //   child: Ink(
+                                  //     //  color: Color(0xFF397AF3),
+                                  //     child: Padding(
+                                  //       padding: EdgeInsets.all(6),
+                                  //       child: Wrap(
+                                  //         crossAxisAlignment:
+                                  //             WrapCrossAlignment.center,
+                                  //         children: [
+                                  //           Icon(Icons
+                                  //               .android), // <-- Use 'Image.asset(...)' here
+                                  //           SizedBox(width: 12),
+                                  //           Text('Sign in with FaceBook'),
+                                  //         ],
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // SizedBox(height: 10),
+                                  // Text('Or'),
+                                  // SizedBox(height: 10),
+                                  // InkWell(
+                                  //   onTap: () async {
+                                  //     //      signInwithGoogle();
+                                  //   },
+                                  //   child: Ink(
+                                  //     //  color: Color(0xFF397AF3),
+                                  //     child: Padding(
+                                  //       padding: EdgeInsets.all(6),
+                                  //       child: Wrap(
+                                  //         crossAxisAlignment:
+                                  //             WrapCrossAlignment.center,
+                                  //         children: [
+                                  //           Icon(Icons
+                                  //               .android), // <-- Use 'Image.asset(...)' here
+                                  //           SizedBox(width: 12),
+                                  //           Text('Sign in with Google'),
+                                  //         ],
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                               SingleChildScrollView(
@@ -241,14 +352,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                         height: screenHeight * (0.25 / 20)),
                                     LoginPageButton(
                                       text: "Join in community",
-                                      function: () async{
+                                      function: () async {
                                         if (_formKey.currentState!.validate()) {
                                           _formKey.currentState?.save();
-                                          _signUp() ;
-                                         
+                                          _signUp();
                                         }
-                                       
-                                       
                                       },
                                     ),
                                     SizedBox(
@@ -459,7 +567,6 @@ class _LoginScreenState extends State<LoginScreen> {
   //   );
   // }
 
-
 //SIGNup FEILD
 
 //Email Feils
@@ -609,7 +716,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
   //Password Feild
   _passwordSignup() {
     return Container(
@@ -689,8 +795,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
-
 //Login CAll API
   void _login() async {
     setState(() {
@@ -707,35 +811,35 @@ class _LoginScreenState extends State<LoginScreen> {
       var body = json.decode(res.body);
       if (body["errorMessage"] == false) {
 // if (body['message']['token'] != null) {
-          // SharedPreferences localStorage =
-          //     await SharedPreferences.getInstance();
+        // SharedPreferences localStorage =
+        //     await SharedPreferences.getInstance();
 
-          // var token = body['message']['token'];
-          // print(token);
+        // var token = body['message']['token'];
+        // print(token);
 
-          // var userId = body['message']["user"]["id"];
-          // print(userId);
+        // var userId = body['message']["user"]["id"];
+        // print(userId);
 
-          // print("------------------------------------");
-          // localStorage.setString('token', token);
-          // print(token);
-          //  print(userId);
+        // print("------------------------------------");
+        // localStorage.setString('token', token);
+        // print(token);
+        //  print(userId);
 
-          // localStorage.setInt('userId', userId);
+        // localStorage.setInt('userId', userId);
 
-          print(body['message']);
+        print(body['message']);
 
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-                builder: (BuildContext context) => MainScreen(
-                    //builder: (BuildContext context) => ReplyComments(
-                    // image: widget.image,
-                    // chapterid: widget.chapterid,
-                    // hid: widget.hid,
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+              builder: (BuildContext context) => MainScreen(
+                  //builder: (BuildContext context) => ReplyComments(
+                  // image: widget.image,
+                  // chapterid: widget.chapterid,
+                  // hid: widget.hid,
 
-                    )),
-          );
-    //    }
+                  )),
+        );
+        //    }
       } else {
         // _showMsg(body['error']);
         setState(() {
@@ -755,8 +859,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
-    void _signUp() async {
+  void _signUp() async {
     setState(() {
       _isLoading = true;
     });
@@ -769,8 +872,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
       var res = await CallApi().loginData(data, 'register');
       var body = json.decode(res.body);
+
       if (body["errorMessage"] == false) {
-       // if (body['message']['token'] != null) {
+        if (body['message']['token'] != null) {
+          MySharedPreferences.instance
+              .setStringValue("token", body['message']['token']);
           // SharedPreferences localStorage =
           //     await SharedPreferences.getInstance();
 
@@ -788,18 +894,21 @@ class _LoginScreenState extends State<LoginScreen> {
           // localStorage.setInt('userId', userId);
 
           print(body['message']);
+          print("vxvxcv" + (body['message']['token'].toString()));
 
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-                builder: (BuildContext context) => MainScreen(
-                    //builder: (BuildContext context) => ReplyComments(
-                    // image: widget.image,
-                    // chapterid: widget.chapterid,
-                    // hid: widget.hid,
+              builder: (BuildContext context) => MainScreen(
+                  //builder: (BuildContext context) => ReplyComments(
+                  // image: widget.image,
+                  // chapterid: widget.chapterid,
+                  // hid: widget.hid,
 
-                    ),),
+                  ),
+            ),
           );
-     //   }
+        }
+        //   }
       } else {
         // _showMsg(body['error']);
         setState(() {

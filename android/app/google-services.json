@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "1090593060777",
-    "project_id": "staket-f7278",
-    "storage_bucket": "staket-f7278.appspot.com"
+    "project_number": "263595106376",
+    "project_id": "staketsocialmedia",
+    "storage_bucket": "staketsocialmedia.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1090593060777:android:eb7ff32701c9aff18e36b8",
+        "mobilesdk_app_id": "1:263595106376:android:3c9e2300883f978ddfb87d",
         "android_client_info": {
           "package_name": "com.example.flutter_application_1"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1090593060777-llefk08s56autvcmrn56ciejih2hu11e.apps.googleusercontent.com",
+          "client_id": "263595106376-i5iinr3qica7jdc521psp8chpmnqd23g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_application_1",
+            "certificate_hash": "729cffe8691ad6feef98e9620ab640d76a02b678"
+          }
+        },
+        {
+          "client_id": "263595106376-4eqfkvs5eacul5tsr3hbrmic0pmfnjr0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCML42mnStc1nPFRqI2ADEq7IZX049CjyQ"
+          "current_key": "AIzaSyChy7dy-d-eJ8dR9eZ7Ms68uJuHyUBq1V8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1090593060777-llefk08s56autvcmrn56ciejih2hu11e.apps.googleusercontent.com",
+              "client_id": "263595106376-4eqfkvs5eacul5tsr3hbrmic0pmfnjr0.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

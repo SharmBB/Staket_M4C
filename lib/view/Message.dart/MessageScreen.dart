@@ -182,17 +182,17 @@ class _MessageScreenState extends State<MessageScreen> {
                                 return GestureDetector(
                                   onTap: () {
                                     print(newmessage[index]["email"]);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ChatScreen()
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //       builder: (context) => ChatScreen()
                                           
-                                          // chatpage(
-                                          //       email: newmessage[index]
-                                          //           ["email"].toString(),
-                                          //     )
-                                              ),
-                                    );
+                                    //       // chatpage(
+                                    //       //       email: newmessage[index]
+                                    //       //           ["email"].toString(),
+                                    //       //     )
+                                    //           ),
+                                    // );
                                   },
                                   child: cardView(
                                       newmessage[index]["Picture"],
