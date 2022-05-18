@@ -6,7 +6,7 @@ class CallApi {
   var baseurl = '';
   var token;
   // Auth Api
-  var _urlAuth = 'https://api.staket.io/enduser/';
+  var _urlAuth = 'https://staketapi01.moodfor.codes/enduser/';
 
 //post data
   postData(data, apiUrl) async {
